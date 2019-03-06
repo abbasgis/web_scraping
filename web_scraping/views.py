@@ -15,6 +15,7 @@ def scrap_ppra_data(request):
         no_of_pages = browser.find_element_by_class_name('rgNumPart').find_elements_by_tag_name('a')
         rows = browser.find_elements_by_xpath("//*[@class='rgRow' or @class='rgAltRow']")
         save_rows_in_db(i, rows)
+    print('working')
     browser.implicitly_wait(10)
     browser.quit()
     return HttpResponse('Done. . ')

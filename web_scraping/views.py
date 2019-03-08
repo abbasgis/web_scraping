@@ -4,6 +4,10 @@ from selenium import webdriver
 from web_scraping.models import TblConsultancyData
 
 
+def test_function(request):
+    return HttpResponse('Done. . ')
+
+
 def scrap_ppra_data(request):
     url = "https://eproc.punjab.gov.pk/ActiveTenders.aspx"
     browser = webdriver.Chrome()

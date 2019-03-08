@@ -5,16 +5,18 @@ sudo: false
 language: python
 
 # Set the python version to 2.7
-python: 3.6
+python: "3.6"
+virtualenv:
+  system_site_packages: true
 
 # Install the codecov pip dependency
 install:
-  - pip install codecov
+  - pip install -r requirements.txt
 
 # Run the unit test
 script:
   - coverage run tests.py
 
 # Push the results back to codecov
-after_success:
-  - codecov
+#after_success:
+#  - codecov

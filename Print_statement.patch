@@ -1,0 +1,16 @@
+Index: web_scraping/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web_scraping/views.py	(date 1551860355000)
++++ web_scraping/views.py	(revision )
+@@ -15,7 +15,7 @@
+         no_of_pages = browser.find_element_by_class_name('rgNumPart').find_elements_by_tag_name('a')
+         rows = browser.find_elements_by_xpath("//*[@class='rgRow' or @class='rgAltRow']")
+         save_rows_in_db(i, rows)
+-    print('working')
++    print('done')
+     browser.implicitly_wait(10)
+     browser.quit()
+     return HttpResponse('Done. . ')

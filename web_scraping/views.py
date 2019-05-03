@@ -1,7 +1,26 @@
 from django.http import HttpResponse
+from django.test import Client
 from selenium import webdriver
 
 from web_scraping.models import TblConsultancyData
+
+def scrap_smdp_data(request):
+
+    url = "https://smdp.punjab.gov.pk/Login.aspx"
+    # client = Client()
+    #     # client.lo
+    browser = webdriver.Chrome()
+    browser.implicitly_wait(10)
+    browser.get(url)
+    no_of_pages = browser.find_element_by_class_name('rgNumPart').find_elements_by_tag_name('a')
+    for i in range(len(no_of_pages)):
+        no_of_pages[i].click()
+        no_of_pages = browser.find_element_by_class_name('rgNumPart').find_elements_by_tag_name('a')
+        rows = browser.find_elements_by_xpath("//*[@class='rgRow' or @class='rgAltRow']")
+        # save_rows_in_db(i, rows)
+    browser.implicitly_wait(10)
+    browser.quit()
+    return HttpResponse('Done. . ')
 
 
 def scrap_ppra_data(request):

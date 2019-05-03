@@ -17,9 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
-from web_scraping.views import scrap_ppra_data
+from web_scraping.views import scrap_ppra_data, scrap_smdp_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^ppra/', scrap_ppra_data)
+    url(r'^ppra/', scrap_ppra_data),
+    url(r'^smdp/', scrap_smdp_data)
+
 ]

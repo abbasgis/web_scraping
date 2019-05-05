@@ -67,39 +67,44 @@ def get_page(browser, url):
 def save_object_based_scheme_detail(table, gs_no, financial_year, select_month, user_name):
     arr_rows = table.find_elements_by_tag_name('tr')
     data = []
-    for j in range(18, len(arr_rows)):
-        arr_td = arr_rows[j].find_elements_by_tag_name('td')
-        row = {'gs_no': gs_no, 'financial_year': financial_year, 'financial_month': select_month, 'user': user_name}
-        object_code_title = arr_td[2].text
-        object_code = object_code_title.split('-')[0].strip()
-        row['sno'] = int(arr_td[1].text)
-        row['object_code'] = object_code
-        row['object_code_title'] = arr_td[2].text
-        row['provision_total'] = Decimal(arr_td[3].text)
-        row['provision_capital'] = arr_td[4].text
-        row['provision_revenue'] = arr_td[5].text
-        row['revised_allocation_total'] = arr_td[6].text
-        row['revised_allocation_capital'] = arr_td[7].text
-        row['revised_allocation_revenue'] = arr_td[8].text
-        row['pnd_released_total'] = arr_td[9].text
-        row['pnd_released_capital'] = arr_td[10].text
-        row['pnd_released_revenue'] = arr_td[11].text
-        row['fd_released_total'] = arr_td[12].text
-        row['fd_released_capital'] = arr_td[13].text
-        row['fd_released_revenue'] = arr_td[14].text
-        row['received_released_total'] = arr_td[15].text
-        row['received_released_capital'] = arr_td[16].text
-        row['received_released_revenue'] = arr_td[17].text
-        row['utilized'] = arr_td[18].text
-        row['percentage_util_revised_allocation'] = arr_td[19].text
-        obj_mp = TblMonthlyProgressObjectBased.objects.filter(gs_no=gs_no, financial_year=financial_year,
-                                                              financial_month=select_month, object_code=object_code)
-        if obj_mp.count() == 0:
-            obj = TblMonthlyProgressObjectBased(**row)
-            obj.save(force_insert=True)
-        else:
-            obj_mp.update(**row)
-        data.append(row)
+    try:
+        for j in range(18, len(arr_rows)):
+            arr_td = arr_rows[j].find_elements_by_tag_name('td')
+            row = {'gs_no': gs_no, 'financial_year': financial_year, 'financial_month': select_month, 'user': user_name}
+            object_code_title = arr_td[2].text
+            object_code = object_code_title.split('-')[0].strip()
+            if arr_td[1].text == 'Grand Total: ':
+                break
+            row['sno'] = int(arr_td[1].text)
+            row['object_code'] = object_code
+            row['object_code_title'] = arr_td[2].text
+            row['provision_total'] = Decimal(arr_td[3].text)
+            row['provision_capital'] = arr_td[4].text
+            row['provision_revenue'] = arr_td[5].text
+            row['revised_allocation_total'] = arr_td[6].text
+            row['revised_allocation_capital'] = arr_td[7].text
+            row['revised_allocation_revenue'] = arr_td[8].text
+            row['pnd_released_total'] = arr_td[9].text
+            row['pnd_released_capital'] = arr_td[10].text
+            row['pnd_released_revenue'] = arr_td[11].text
+            row['fd_released_total'] = arr_td[12].text
+            row['fd_released_capital'] = arr_td[13].text
+            row['fd_released_revenue'] = arr_td[14].text
+            row['received_released_total'] = arr_td[15].text
+            row['received_released_capital'] = arr_td[16].text
+            row['received_released_revenue'] = arr_td[17].text
+            row['utilized'] = arr_td[18].text
+            row['percentage_util_revised_allocation'] = arr_td[19].text
+            obj_mp = TblMonthlyProgressObjectBased.objects.filter(gs_no=gs_no, financial_year=financial_year,
+                                                                  financial_month=select_month, object_code=object_code)
+            if obj_mp.count() == 0:
+                obj = TblMonthlyProgressObjectBased(**row)
+                obj.save(force_insert=True)
+            else:
+                obj_mp.update(**row)
+            data.append(row)
+    except Exception as e:
+        print(e)
 
 
 def scrap_ppra_data(request):

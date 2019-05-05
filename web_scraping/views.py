@@ -73,7 +73,7 @@ def save_object_based_scheme_detail(table, gs_no, financial_year, select_month, 
             row = {'gs_no': gs_no, 'financial_year': financial_year, 'financial_month': select_month, 'user': user_name}
             object_code_title = arr_td[2].text
             object_code = object_code_title.split('-')[0].strip()
-            if arr_td[1].text == 'Grand Total: ':
+            if arr_td[1].text.strip() == '':
                 break
             row['sno'] = int(arr_td[1].text)
             row['object_code'] = object_code
@@ -104,7 +104,7 @@ def save_object_based_scheme_detail(table, gs_no, financial_year, select_month, 
                 obj_mp.update(**row)
             data.append(row)
     except Exception as e:
-        print(e)
+        print(str(e) + ', gs_no: ' + gs_no + ', select_month: ' + select_month + ', financial_year: ' + financial_year)
 
 
 def scrap_ppra_data(request):

@@ -45,7 +45,7 @@ class TblMonthlyProgressObjectBased(models.Model):
     utilized = models.DecimalField(max_digits=20, decimal_places=4, blank=True, null=True)
     percentage_util_revised_allocation = models.DecimalField(max_digits=20, decimal_places=4, blank=True, null=True)
     user = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_created=True, blank=True, null=True)
+    created_at = models.DateTimeField(auto_created=True, auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:

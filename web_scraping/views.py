@@ -21,18 +21,21 @@ def scrap_smdp_data(request):
     browser = get_page(browser, url)
     select_project_name = Select(browser.find_element_by_id('PlaceHolderMain_ddlSchemeName'))
     select_year = Select(browser.find_element_by_id('PlaceHolderMain_ddlYears')).first_selected_option.text
-    select_month = Select(browser.find_element_by_id('PlaceHolderMain_ddlMonth')).first_selected_option.text
+    select_month = Select(browser.find_element_by_id('PlaceHolderMain_ddlMonth'))
+    arr_months = select_month.options
     arr_options_el = select_project_name.options
-    for i in range(1, len(arr_options_el)):
-        gs_no = arr_options_el[i].get_attribute('value')
-        project_name = arr_options_el[i].text
-        select_project_name.select_by_visible_text(project_name)
-        browser.find_element_by_id('PlaceHolderMain_btnShowReport').click()
-        table = browser.find_element_by_xpath("//table[@cols='21']")
-        save_object_based_scheme_detail(table, gs_no, select_year, select_month)
-        browser = get_page(browser, url)
-        select_project_name = Select(browser.find_element_by_id('PlaceHolderMain_ddlSchemeName'))
-        arr_options_el = select_project_name.options
+    for month in arr_months:
+        for i in range(1, len(arr_options_el)):
+            gs_no = arr_options_el[i].get_attribute('value')
+            project_name = arr_options_el[i].text
+            select_month.select_by_visible_text(month)
+            select_project_name.select_by_visible_text(project_name)
+            browser.find_element_by_id('PlaceHolderMain_btnShowReport').click()
+            table = browser.find_element_by_xpath("//table[@cols='21']")
+            save_object_based_scheme_detail(table, gs_no, select_year, month, user_name)
+            browser = get_page(browser, url)
+            select_project_name = Select(browser.find_element_by_id('PlaceHolderMain_ddlSchemeName'))
+            arr_options_el = select_project_name.options
 
     browser.implicitly_wait(10)
     browser.quit()
@@ -44,18 +47,38 @@ def get_page(browser, url):
     return browser
 
 
-def save_object_based_scheme_detail(table, gs_no, select_year, select_month):
+def save_object_based_scheme_detail(table, gs_no, select_year, select_month, user_name):
     arr_rows = table.find_elements_by_tag_name('tr')
-    arr_cols = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
-                '20']
     data = []
     for j in range(18, len(arr_rows)):
         arr_td = arr_rows[j].find_elements_by_tag_name('td')
-        row = {'gs_no': gs_no, 'report_year': select_year, 'report_month': select_month}
-        for col_index in range(1, len(arr_td) - 1):
-            row[arr_cols[col_index - 1]] = arr_td[col_index].text
+        row = {'gs_no': gs_no, 'financial_year': select_year, 'financial_month': select_month, 'user': user_name}
+        row['sno'] = arr_td[1].text
+        object_code_title = arr_td[2].text
+        provision_total = arr_td[3].text
+        provision_capital = arr_td[4].text
+        provision_revenue = arr_td[5].text
+        revised_allocation_total = arr_td[6].text
+        revised_allocation_capital = arr_td[7].text
+        revised_allocation_revenue = arr_td[8].text
+        pnd_released_total = arr_td[9].text
+        pnd_released_capital = arr_td[10].text
+        pnd_released_revenue = arr_td[11].text
+        fd_released_total = arr_td[12].text
+        fd_released_capital = arr_td[13].text
+        fd_released_revenue = arr_td[14].text
+        received_released_total = arr_td[15].text
+        received_released_capital = arr_td[16].text
+        received_released_revenue = arr_td[17].text
+        utilized = arr_td[18].text
+        percentage_util_revised_allocation = arr_td[19].text
+        # obj_cd = TblConsultancyData.objects.filter(row_id=row_id)
+        # if obj_cd.count() == 0:
+        #     obj = TblConsultancyData(**row)
+        #     obj.save(force_insert=True)
+        # else:
+        #     obj_cd.update(**row)
         data.append(row)
-
 
 def scrap_ppra_data(request):
     url = "https://eproc.punjab.gov.pk/ActiveTenders.aspx"

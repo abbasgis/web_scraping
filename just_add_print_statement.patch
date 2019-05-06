@@ -1,0 +1,40 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(date 1551857084000)
++++ .idea/misc.xml	(revision )
+@@ -3,5 +3,5 @@
+   <component name="JavaScriptSettings">
+     <option name="languageLevel" value="ES6" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6 (web_scraping)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.6.5 virtualenv at D:\FERRP_11_28_2018\sir_shakir\web_scraping\venv" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/web_scraping.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/web_scraping.iml	(date 1551857084000)
++++ .idea/web_scraping.iml	(revision )
+@@ -7,8 +7,6 @@
+         <option name="settingsModule" value="web_scraping/settings.py" />
+         <option name="manageScript" value="$MODULE_DIR$/manage.py" />
+         <option name="environment" value="&lt;map/&gt;" />
+-        <option name="doNotUseTestRunner" value="false" />
+-        <option name="trackFilePattern" value="migrations" />
+       </configuration>
+     </facet>
+   </component>
+@@ -16,7 +14,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/venv" />
+     </content>
+-    <orderEntry type="inheritedJdk" />
++    <orderEntry type="jdk" jdkName="Python 3.6.5 virtualenv at D:\FERRP_11_28_2018\sir_shakir\web_scraping\venv" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+   <component name="TemplatesService">

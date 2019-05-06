@@ -1,3 +1,4 @@
+import json
 import time
 from decimal import Decimal
 from selenium.webdriver.support import expected_conditions as EC
@@ -38,7 +39,8 @@ def scrap_smdp_data(request):
     browser = get_page(browser, url)
     projects = get_dropdown_list(browser, 'PlaceHolderMain_ddlSchemeName')
     years = get_dropdown_list(browser, 'PlaceHolderMain_ddlYears')
-    months = get_dropdown_list(browser, 'PlaceHolderMain_ddlMonth')
+    # months = get_dropdown_list(browser, 'PlaceHolderMain_ddlMonth')
+    months = [{"name": "September", "value": "9"}]
     select_project_name = Select(browser.find_element_by_id('PlaceHolderMain_ddlSchemeName'))
     select_year = Select(browser.find_element_by_id('PlaceHolderMain_ddlYears')).first_selected_option.text
     select_month = Select(browser.find_element_by_id('PlaceHolderMain_ddlMonth'))
@@ -52,7 +54,7 @@ def scrap_smdp_data(request):
             select_month.select_by_visible_text(month_name)
             select_project_name.select_by_visible_text(project_name)
             browser.find_element_by_id('PlaceHolderMain_btnShowReport').click()
-            wait = WebDriverWait(browser, 60)
+            wait = WebDriverWait(browser, 120)
             wait.until(EC.presence_of_element_located((By.XPATH, "//table[@cols='21']")))
             table = browser.find_element_by_xpath("//table[@cols='21']")
             time.sleep(5)
@@ -70,7 +72,7 @@ def scrap_smdp_data(request):
 def get_page(browser, url):
     time.sleep(10)
     browser.get(url)
-    wait = WebDriverWait(browser, 60)
+    wait = WebDriverWait(browser, 120)
     wait.until(EC.element_to_be_clickable((By.ID, 'PlaceHolderMain_btnShowReport')))
     return browser
 
@@ -82,7 +84,8 @@ def save_object_based_scheme_detail(table, gs_no, financial_year, select_month, 
         for j in range(18, len(arr_rows)):
             arr_td = arr_rows[j].find_elements_by_tag_name('td')
             if not is_int(arr_td[1].text):
-                print(arr_td[1].text+' and break , gs_no: ' + gs_no + ', select_month: ' + select_month + ', financial_year: ' + financial_year)
+                print(arr_td[
+                          1].text + ' and break , gs_no: ' + gs_no + ', select_month: ' + select_month + ', financial_year: ' + financial_year)
                 break
             row = {'gs_no': gs_no, 'financial_year': financial_year, 'financial_month': select_month, 'user': user_name}
             object_code_title = arr_td[2].text
@@ -118,6 +121,7 @@ def save_object_based_scheme_detail(table, gs_no, financial_year, select_month, 
     except Exception as e:
         print(str(e) + ', gs_no: ' + gs_no + ', select_month: ' + select_month + ', financial_year: ' + financial_year)
     return True
+
 
 def is_int(value):
     try:

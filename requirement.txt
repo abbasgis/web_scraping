@@ -4,7 +4,7 @@ certifi==2018.11.29
 chardet==3.0.4
 chromedriver==2.24.1
 coverage==4.5.2
-Django==2.1.7
+Django==2.2.13
 django-webtest==1.9.4
 idna==2.8
 pytz==2018.9
